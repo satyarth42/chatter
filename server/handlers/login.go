@@ -15,15 +15,16 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	req := &dto.LoginReq{}
 	bodyErr := readBody(r, req)
 	if bodyErr != nil {
-		slog.WarnContext(ctx, "error in reading body", bodyErr.Error())
+		slog.WarnContext(ctx, fmt.Sprintf("error in reading body, err: %+v", bodyErr.Error()))
 		handleError(w, bodyErr)
 		return
 	}
 
 	resp, err := logic.Login(ctx, req)
 	if err != nil {
-		slog.WarnContext(ctx, fmt.Sprintf("error in login for email:%s", req.Email), err.Error())
+		slog.WarnContext(ctx, fmt.Sprintf("error in login for email:%s, err: %+v", req.Email, err.Error()))
 		handleError(w, err)
+		return
 	}
 
 	handleResponse(ctx, w, resp, http.StatusOK)

@@ -18,6 +18,7 @@ func Serve() {
 	conf := config.GetConfig()
 
 	storage.InitDB(conf.DB)
+	storage.InitRedis(conf.Redis)
 
 	router := mux.NewRouter()
 

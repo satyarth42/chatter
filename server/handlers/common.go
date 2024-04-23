@@ -38,7 +38,7 @@ func readBody(req *http.Request, str any) *dto.CommonError {
 
 	body, bodyErr := io.ReadAll(req.Body)
 	if bodyErr != nil {
-		slog.WarnContext(req.Context(), fmt.Sprintf("could not read body for path: %s, err", req.URL.Path, bodyErr))
+		slog.WarnContext(req.Context(), fmt.Sprintf("could not read body for path: %s, err%+v", req.URL.Path, bodyErr))
 		return &dto.CommonError{Err: bodyErr, StatusCode: http.StatusBadRequest}
 	}
 

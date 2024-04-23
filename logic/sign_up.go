@@ -22,10 +22,11 @@ func SignUp(ctx context.Context, req *dto.SignUpReq) *dto.CommonError {
 	}
 
 	user := &models.User{
-		UUID:     uuid.NewString(),
-		Name:     req.Name,
-		Email:    req.Email,
-		Password: string(hashedPassword),
+		UUID:               uuid.NewString(),
+		Name:               req.Name,
+		Email:              req.Email,
+		Password:           string(hashedPassword),
+		VerificationStatus: false,
 	}
 
 	result := db.Create(user)

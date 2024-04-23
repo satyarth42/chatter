@@ -8,9 +8,10 @@ import (
 )
 
 type Config struct {
-	Host string    `json:"host"`
-	Port string    `json:"port"`
-	DB   MySQLConf `json:"user_db"`
+	Host  string      `json:"host"`
+	Port  string      `json:"port"`
+	DB    MySQLConf   `json:"user_db"`
+	Redis RedisConfig `json:"redis"`
 }
 
 type MySQLConf struct {
@@ -18,6 +19,16 @@ type MySQLConf struct {
 	Password string `json:"pass"`
 	Host     string `json:"host"`
 	Database string `json:"database"`
+}
+
+type RedisConfig struct {
+	Addresses            []string `json:"addresses"`
+	ReadOnly             bool     `json:"readOnly"`
+	DialTimeoutInSec     int      `json:"dialTimeoutInSec"`
+	ReadTimeoutInSec     int      `json:"readTimeoutInSec"`
+	WriteTimeoutInSec    int      `json:"writeTimeoutInSex"`
+	PoolSize             int      `json:"PoolSize"`
+	ConnMaxIdleTimeInSec int      `json:"connMaxIdleTimeInSec"`
 }
 
 const configFilePath = "CONF_PATH"

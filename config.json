@@ -6,5 +6,14 @@
         "pass":"",
         "host":"127.0.0.1",
         "database":"chatter"
+    },
+    "redis":{
+        "addresses":[":6380",":6381",":6382"],
+        "readOnly":false,
+        "dialTimeoutInSec": 5,
+        "readTimeoutInSec": 5,
+        "writeTimeoutInSex":5,
+        "PoolSize":100,
+        "connMaxIdleTimeInSec": 60
     }
 }
