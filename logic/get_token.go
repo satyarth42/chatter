@@ -2,6 +2,7 @@ package logic
 
 import (
 	"context"
+	"fmt"
 	"log/slog"
 	"net/http"
 
@@ -12,7 +13,7 @@ import (
 func GetToken(ctx context.Context, userID string) (*dto.LoginResp, *dto.CommonError) {
 	accessToken, refreshToken, expiresIn, err := auth.GetToken(userID)
 	if err != nil {
-		slog.WarnContext(ctx, "failed to regenerate token for user: %s", userID)
+		slog.WarnContext(ctx, fmt.Sprintf("failed to regenerate token for user: %s", userID))
 		return nil, &dto.CommonError{Err: err, StatusCode: http.StatusInternalServerError}
 	}
 	return &dto.LoginResp{
