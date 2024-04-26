@@ -16,7 +16,7 @@ func GetToken(w http.ResponseWriter, r *http.Request) {
 
 	resp, err := logic.GetToken(ctx, userID)
 	if err != nil {
-		slog.WarnContext(ctx, fmt.Sprintf("error in login for email:%s, err: %+v", req.Email, err.Error()))
+		slog.WarnContext(ctx, fmt.Sprintf("error in getting token for user: %s", userID, err.Error()))
 		handleError(w, err)
 		return
 	}

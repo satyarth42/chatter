@@ -20,5 +20,5 @@ func GetToken(ctx context.Context, userID string) (*dto.LoginResp, *dto.CommonEr
 		AccessToken:  accessToken,
 		ExpiresIn:    uint(expiresIn),
 		RefreshToken: refreshToken,
-	}, err
+	}, nil
 }

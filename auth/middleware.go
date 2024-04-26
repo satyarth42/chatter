@@ -5,7 +5,6 @@ import (
 	"strings"
 
 	"github.com/gorilla/mux"
-	"github.com/satyarth42/chatter/auth"
 )
 
 const (
@@ -23,7 +22,7 @@ func JWTVerify() mux.MiddlewareFunc {
 				return
 			}
 
-			userID, isValid := auth.VerifyToken(tokenArr[1], tokenArr[0])
+			userID, isValid := VerifyToken(tokenArr[1], tokenArr[0])
 			if !isValid {
 				w.WriteHeader(http.StatusForbidden)
 				return
