@@ -5,11 +5,15 @@ import (
 	"log"
 	"log/slog"
 	"net/http"
+	"os"
 
+	"github.com/google/uuid"
 	"github.com/gorilla/mux"
 	"github.com/satyarth42/chatter/config"
 	"github.com/satyarth42/chatter/storage"
 )
+
+const serverID = "SERVER_ID"
 
 func Serve() {
 
@@ -17,8 +21,12 @@ func Serve() {
 
 	conf := config.GetConfig()
 
+	os.Setenv(serverID, uuid.New().String())
+
 	storage.InitDB(conf.DB)
 	storage.InitRedis(conf.Redis)
+
+	registerServer()
 
 	router := mux.NewRouter()
 

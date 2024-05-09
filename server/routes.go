@@ -2,6 +2,7 @@ package server
 
 import (
 	"net/http"
+	"path"
 
 	"github.com/gorilla/mux"
 	"github.com/satyarth42/chatter/auth"
@@ -19,22 +20,27 @@ func HealthCheck(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("health check is awesome!"))
 }
 
+func Home(w http.ResponseWriter, r *http.Request) {
+	p := path.Dir("./index.html")
+	// set header
+	w.Header().Set("Content-type", "text/html")
+	http.ServeFile(w, r, p)
+}
+
 func createRoutes(router *mux.Router) {
 
-	noAuthRouter := router.MatcherFunc(func(r *http.Request, rm *mux.RouteMatch) bool {
-		return noAuthPaths[r.URL.Path]
-	}).Subrouter()
+	router.HandleFunc("/", Home)
+	router.HandleFunc("/health_check", HealthCheck).Methods(http.MethodGet)
+	router.HandleFunc("/signup", handlers.SignUp).Methods(http.MethodPost)
+	router.HandleFunc("/login", handlers.Login).Methods(http.MethodPost)
 
 	authRouter := router.MatcherFunc(func(r *http.Request, rm *mux.RouteMatch) bool {
 		return !noAuthPaths[r.URL.Path]
 	}).Subrouter()
 
-	noAuthRouter.HandleFunc("/health_check", HealthCheck).Methods(http.MethodGet)
-	noAuthRouter.HandleFunc("/signup", handlers.SignUp).Methods(http.MethodPost)
-	noAuthRouter.HandleFunc("/login", handlers.Login).Methods(http.MethodPost)
-
 	authRouter.HandleFunc("/logout", handlers.Logout).Methods(http.MethodPost)
 	authRouter.HandleFunc("/token", handlers.GetToken).Methods(http.MethodPost)
+	router.HandleFunc("/connect", handlers.Connect)
 
 	authRouter.Use(auth.JWTVerify())
 

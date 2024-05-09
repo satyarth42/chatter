@@ -12,6 +12,7 @@ type Config struct {
 	Port  string      `json:"port"`
 	DB    MySQLConf   `json:"user_db"`
 	Redis RedisConfig `json:"redis"`
+	Etcd  EtcdConf    `json:"etcd"`
 }
 
 type MySQLConf struct {
@@ -27,8 +28,14 @@ type RedisConfig struct {
 	DialTimeoutInSec     int      `json:"dialTimeoutInSec"`
 	ReadTimeoutInSec     int      `json:"readTimeoutInSec"`
 	WriteTimeoutInSec    int      `json:"writeTimeoutInSex"`
-	PoolSize             int      `json:"PoolSize"`
+	PoolSize             int      `json:"poolSize"`
+	MinIdleConns         int      `json:"minIdleConns"`
 	ConnMaxIdleTimeInSec int      `json:"connMaxIdleTimeInSec"`
+}
+
+type EtcdConf struct {
+	Endpoints        []string `json:"endpoints"`
+	DialTimeoutInSec int      `json:"dialTimeoutInSec"`
 }
 
 const configFilePath = "CONF_PATH"

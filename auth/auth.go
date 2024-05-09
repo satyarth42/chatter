@@ -26,19 +26,19 @@ type Claims struct {
 	TokenType string
 }
 
-func getAccessTokenSecretString() string {
+func getAccessTokenSecretString() []byte {
 	secret := os.Getenv(ACCESS_TOKEN_SECRET)
 	if secret == "" {
-		return "test-secret"
+		return []byte("test-secret")
 	}
-	return secret
+	return []byte(secret)
 }
-func getRefreshTokenSecretString() string {
+func getRefreshTokenSecretString() []byte {
 	secret := os.Getenv(REFRESH_TOKEN_SECRET)
 	if secret == "" {
-		return "test-secret"
+		return []byte("test-secret")
 	}
-	return secret
+	return []byte(secret)
 }
 
 func GetToken(userID string) (string, string, int64, error) {
@@ -60,8 +60,8 @@ func GetToken(userID string) (string, string, int64, error) {
 	refreshTokenClaims.ID = uuid.NewString()
 	refreshTokenClaims.TokenType = REFRESH
 
-	accessToken := jwt.NewWithClaims(jwt.SigningMethodRS512, accessTokenClaims)
-	refreshToken := jwt.NewWithClaims(jwt.SigningMethodRS512, refreshTokenClaims)
+	accessToken := jwt.NewWithClaims(jwt.SigningMethodHS256, accessTokenClaims)
+	refreshToken := jwt.NewWithClaims(jwt.SigningMethodHS256, refreshTokenClaims)
 
 	accessTokenString, err := accessToken.SignedString(getAccessTokenSecretString())
 	if err != nil {
@@ -115,7 +115,7 @@ func VerifyToken(tokenString, tokenType string) (string, bool) {
 
 	client := storage.GetRedis()
 	res, _ := client.HGet(context.Background(), tokenString, "VALID").Result()
-	if res != "true" {
+	if res != "1" {
 		return "", false
 	}
 

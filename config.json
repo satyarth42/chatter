@@ -13,7 +13,12 @@
         "dialTimeoutInSec": 5,
         "readTimeoutInSec": 5,
         "writeTimeoutInSex":5,
-        "PoolSize":100,
+        "poolSize":100,
+        "minIdleConns":10,
         "connMaxIdleTimeInSec": 60
-    }
+    },
+   "etcd":{
+    "endpoints":["localhost:2379"],
+    "dialTimeoutInSec": 5
+   }
 }

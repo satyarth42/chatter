@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Socket.IO Client</title>
+</head>
+<body>
+  <h1>Live Sensor Data</h1>
+  <ul id="data-list"></ul>
+  <script>
+    const socket = new WebSocket('ws://localhost:8080/connect');
+
+    socket.onopen = function(event) {
+    console.log("Connection established!");
+  };
+    
+  </script>
+</body>
+</html>
